@@ -5,12 +5,23 @@ body{
   background-color: blue;
 }
 #pictureArrays {
+  display: inline-block;
   width: 90%;
   height: 90%;
   border: 2px solid red;
 }
-.pictures-Box{
-  width:30%;
-  height: 100%;
+#pictures-Box-1{
+  display: inline-block;
+}
+#pictures-Box-2{
+  display: inline-block;
+}
+#pictures-Box-3{
+  display: inline-block;
+}
+#pictureArrays img{
+  display: inline-block;
+  width:300px;
+  height: 300px;
   border:2px solid green;
 }
