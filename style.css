@@ -4,3 +4,13 @@
 body{
   background-color: blue;
 }
+#pictureArrays {
+  width: 90%;
+  height: 90%;
+  border: 2px solid red;
+}
+.pictures-Box{
+  width:30%;
+  height: 100%;
+  border:2px solid green;
+}
