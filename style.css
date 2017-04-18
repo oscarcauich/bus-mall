@@ -10,7 +10,7 @@ body{
   height: 90%;
   border: 2px solid red;
 }
-#pictures-Box-1{
+.pictures-Box{
   display: inline-block;
 }
 #pictures-Box-2{
