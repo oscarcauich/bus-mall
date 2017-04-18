@@ -1,28 +1,48 @@
 'use strict';
 
-var pictureArray = ['bag.jpg', 'banana.jpg', 'bathroom.jpg', 'boots.jpg','breakfast.jpg','bubblegum.jpg','chair.jpg','cthulhu.jpg','dog-duck.jpg','dragon.jpg','pen.jpg','pet-sweep.jpg','scissors.jpg','shark.jpg','sweep.png','tauntaun.jpg','unicorn.jpg','usb.gif','water-can.jpg','wine-glass.jpg'];
+var pictureArray = [
+    new Picture('bag' , './img/bag.jpg'),
+    new Picture('banana' , './img/banana.jpg'),
+    new Picture('bathroom' , './img/bathroom.jpg'),
+    new Picture('boots' , './img/boots.jpg'),
+    new Picture('breakfast' , './img/breakfast.jpg'),
 
+    new Picture('bubblegum' , './img/bubblegum.jpg'),
+    new Picture('chair' , './img/chair.jpg'),
+    new Picture('cthulhu' , './img/cthulhu.jpg'),
+    new Picture('dog-duck' , './img/dog-duck.jpg'),
+    new Picture('dragon' , './img/dragon.jpg'),
 
+    new Picture('pen' , './img/pen.jpg'),
+    new Picture('pet-sweep' , './img/pet-sweep.jpg'),
+    new Picture('scissors' , './img/scissors.jpg'),
+    new Picture('shark' , './img/shark.jpg'),
+    new Picture('sweep' , './img/sweep.png'),
+
+    new Picture('tauntaun' , './img/tauntaun.jpg'),
+    new Picture('unicorn' , './img/unicorn.jpg'),
+    new Picture('usb' , './img/usb.gif'),
+    new Picture('water-can' , './img/water-can.jpg'),
+    new Picture('wine-glass' , './img/wine-glass.jpg'),
+
+  ];
+
+//create a constructor for picutes
 function Picture(name, path) {
   this.name = name;
   this.path = path;
   this.numberOfTimesShowned = 0;
   this.numberOfTimesClicked = 0;
-  this.generateRandonImage();
 }
 
-Picture.prototype.generateRandonImage = function () {
-  var generatedPicture = pictureArray[Math.floor(Math.random()* pictureArray.length)];
-  if(pictureArray.indexOf(generatedPicture == -1)) {
-    this.name = generatedPicture;
-    this.path = 'img/' + this.name;
-    // console.log(this.path)
-  } else {
-    this.generateRandonImage();
-  }
-  this.divIdCreate();
-  this.numberOfTimesShowned++;
-};
+function generateRandonImageIndex () {
+  return Math.floor(Math.random()* pictureArray.length);
+}
+
+
+console.log(pictureArray.length);
+
+
 
 Picture.prototype.divIdCreate = function () {
   var displayPictureBoxes = document.getElementById('pictureArrays');
@@ -35,17 +55,10 @@ Picture.prototype.divIdCreate = function () {
     pictureImgTag.src = this.path;
     pictureDivCreate.appendChild(pictureImgTag);
     displayPictureBoxes.appendChild(pictureDivCreate);
+
   }
 };
 
-function countPictureClicks(){
-  this.numberOfTimesClicked++;
-  pictureOne.generateRandonImage();
-  pictureTwo.generateRandonImage();
-  pictureThree.generateRandonImage();
-  console.log(test.numberOfTimesClicked);
-
-}
 
 var pictureOne = new Picture();
 var pictureTwo = new Picture();
@@ -53,6 +66,6 @@ var pictureThree = new Picture();
 
 
 var test = document.getElementById(pictureOne.name);
-console.log(test.numberOfTimesShowned);
+// console.log(pictureOne.numberOfTimesShowned);
 // add event listener to table
 test.addEventListener("click", countPictureClicks);
