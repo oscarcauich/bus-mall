@@ -42,22 +42,35 @@ function generateRandonImageIndex () {
 //This generates a random picture from the Array but they are set yet to not repeat. I will work on that tomorrow morning.
 function pictureGenerator() {
   picturesOnScreenIndex = [];
+
   var pictureOne = generateRandonImageIndex();
   picturesOnScreenIndex.push(pictureOne);
 
 
   var pictureTwo = generateRandonImageIndex();
+  while(pictureTwo === picturesOnScreenIndex[0]){
+    pictureTwo = generateRandonImageIndex();
+  }
   picturesOnScreenIndex.push(pictureTwo);
 
   var pictureThree = generateRandonImageIndex();
+  while(pictureThree === picturesOnScreenIndex[0] || pictureThree === picturesOnScreenIndex[1]){
+    pictureThree = generateRandonImageIndex();
+  }
   picturesOnScreenIndex.push(pictureThree);
 
-  return picturesOnScreenIndex;
+// console.log(lastPictureOnScreenIndex);
+console.log(picturesOnScreenIndex);
+  // return picturesOnScreenIndex;
 }
 
+//This function is called when the page is loaded the first time
 function startImages() {
   if(totalNumberOfClicks === 0){
     pictureGenerator();
+    pictureOne.name = pictureArray[picturesOnScreenIndex[0]].name;
+    pictureTwo.name = pictureArray[picturesOnScreenIndex[1]].name;
+    pictureThree.name = pictureArray[picturesOnScreenIndex[2]].name;
     pictureOne.src = pictureArray[picturesOnScreenIndex[0]].path;
     pictureTwo.src = pictureArray[picturesOnScreenIndex[1]].path;
     pictureThree.src = pictureArray[picturesOnScreenIndex[2]].path;
@@ -83,7 +96,7 @@ function generateNewImages(){
 
 function countClicks(event) {
 
-  totalNumberOfClicks += 1;
+  totalNumberOfClicks++;
   for(var i = 0; i < pictureArray.length; i++){
     if(event.target.name === pictureArray[i].name)
       pictureArray[i].numberOfTimesClicked++;
@@ -93,6 +106,8 @@ function countClicks(event) {
     generateNewImages();
     console.log('clicked'  + pictureArray[0].numberOfTimesClicked);
     console.log('showned' + pictureArray[0].numberOfTimesShowned);
+  }else{
+    pictureBox.textContent = '';
   }
   // console.log(pictureArray[picturesOnScreenIndex[0]].numberOfTimesClicked);
 }
@@ -101,7 +116,9 @@ function countClicks(event) {
 //variables needed
 var totalNumberOfClicks = 0;
 var picturesOnScreenIndex = [];
-var generatePictures;
+var lastPictureOnScreenIndex = [];
+var secondToLastImage = [];
+var pictureBox = document.getElementById('pictureArrays');
 var pictureOne = document.getElementById('image-one');
 var pictureTwo = document.getElementById('image-two');
 var pictureThree = document.getElementById('image-three');
