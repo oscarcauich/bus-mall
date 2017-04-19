@@ -60,7 +60,7 @@ function pictureGenerator() {
   picturesOnScreenIndex.push(pictureThree);
 
 // console.log(lastPictureOnScreenIndex);
-console.log(picturesOnScreenIndex);
+return picturesOnScreenIndex;
   // return picturesOnScreenIndex;
 }
 
@@ -82,7 +82,13 @@ function startImages() {
 
 //this function will generate a new set of pictures for the click event
 function generateNewImages(){
-  pictureGenerator();
+  var previousImageIndex = picturesOnScreenIndex;
+
+  var newImageIndex  = pictureGenerator();
+
+  while(previousImageIndex[0] === newImageIndex[0] || previousImageIndex[1] === newImageIndex[1] || previousImageIndex[2] === newImageIndex[2]){
+    newImageIndex = pictureGenerator();
+  }
   pictureOne.name = pictureArray[picturesOnScreenIndex[0]].name;
   pictureTwo.name = pictureArray[picturesOnScreenIndex[1]].name;
   pictureThree.name = pictureArray[picturesOnScreenIndex[2]].name;
@@ -92,6 +98,7 @@ function generateNewImages(){
   pictureArray[picturesOnScreenIndex[0]].numberOfTimesShowned++;
   pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
   pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
+
 }
 
 function countClicks(event) {
