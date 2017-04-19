@@ -37,7 +37,6 @@ function Picture(name, path) {
 //This function generate a unique random number
 function generateRandonImageIndex () {
   return Math.floor(Math.random()* pictureArray.length);
-  // return imagesSelected;
 }
 
 //This generates a random picture from the Array but they are set yet to not repeat. I will work on that tomorrow morning.
@@ -81,6 +80,7 @@ function generateNewImages(){
   pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
   pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
 }
+
 function countClicks(event) {
 
   totalNumberOfClicks += 1;
