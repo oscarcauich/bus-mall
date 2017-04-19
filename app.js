@@ -34,81 +34,78 @@ function Picture(name, path) {
   this.numberOfTimesShowned = 0;
   this.numberOfTimesClicked = 0;
 }
-
 //This function generate a unique random number
 function generateRandonImageIndex () {
   return Math.floor(Math.random()* pictureArray.length);
   // return imagesSelected;
 }
 
- var imageOneName, imageOnePath;
-//Function to generate three random images
-function generateThreeRandomImages () {
+//This generates a random picture from the Array but they are set yet to not repeat. I will work on that tomorrow morning.
+function pictureGenerator() {
+  picturesOnScreenIndex = [];
+  var pictureOne = generateRandonImageIndex();
+  picturesOnScreenIndex.push(pictureOne);
 
-  var imageOneIndex = generateRandonImageIndex();
-  imageOneName = pictureArray[imageOneIndex].name;
 
-  imageOnePath = pictureArray[imageOneIndex].path;
-  pictureArray[imageOneIndex].numberOfTimesShowned++;
+  var pictureTwo = generateRandonImageIndex();
+  picturesOnScreenIndex.push(pictureTwo);
 
-  var imageTwoIndex = generateRandonImageIndex();
-  while(imageTwoIndex === imageOneIndex){
-    imageTwoIndex = generateRandonImageIndex();
-  }
-  var imageTwoName = pictureArray[imageTwoIndex].name;
-  var imageTwoPath = pictureArray[imageTwoIndex].path;
-  pictureArray[imageTwoIndex].numberOfTimesShowned++;
+  var pictureThree = generateRandonImageIndex();
+  picturesOnScreenIndex.push(pictureThree);
 
-  var imageThreeIndex = generateRandonImageIndex();
-  while(imageThreeIndex === imageOneIndex || imageThreeIndex === imageTwoIndex){
-  imageThreeIndex = generateRandonImageIndex();
+  return picturesOnScreenIndex;
 }
-  var imageThreeName = pictureArray[imageThreeIndex].name;
-  var imageThreePath = pictureArray[imageThreeIndex].path;
-  pictureArray[imageThreeIndex].numberOfTimesShowned++;
 
-
-  // function displayPics() {
-  //   var leftIndex = randNum(0, allProducts.length);
-  //   left.src = allProducts[leftIndex].path;
-  //   left.alt = allProducts[leftIndex].name;
-  //   allProducts[leftIndex].views += 1;
-
-  // console.log(arrayNew);
-}
-// for(var i = 0; i < pictureArray.length; i++){
-//   console.log(pictureArray[i]);
-// }
-// console.log(pictureArray[6]);
-var test = generateThreeRandomImages ()
-console.log(imageOnePath);
-
-// console.log(imagesDisplaying[0]);
-// console.log(generateRandonImageIndex());
-
-// console.log(images);
-
-
-
-Picture.prototype.divIdCreate = function () {
-  var displayPictureBoxes = document.getElementById('pictureArrays');
-  for(var i = 0; i < 1; i++){
-    var pictureDivCreate = document.createElement('div');
-    pictureDivCreate.setAttribute('id', this.name);
-    pictureDivCreate.className = 'pictures-Box';
-
-    var pictureImgTag = document.createElement('img');
-    pictureImgTag.src = this.path;
-    pictureDivCreate.appendChild(pictureImgTag);
-    displayPictureBoxes.appendChild(pictureDivCreate);
-
+function startImages() {
+  if(totalNumberOfClicks === 0){
+    pictureGenerator();
+    pictureOne.src = pictureArray[picturesOnScreenIndex[0]].path;
+    pictureTwo.src = pictureArray[picturesOnScreenIndex[1]].path;
+    pictureThree.src = pictureArray[picturesOnScreenIndex[2]].path;
+    pictureArray[picturesOnScreenIndex[0]].numberOfTimesShowned++;
+    pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
+    pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
   }
-};
+}
 
-//Create variables to hold each item that will be displayed on the screen
-var imageOne, imageTwo, imageThree;
+//this function will generate a new set of pictures for the click event
+function generateNewImages(){
+  pictureGenerator();
+  pictureOne.name = pictureArray[picturesOnScreenIndex[0]].name;
+  pictureTwo.name = pictureArray[picturesOnScreenIndex[1]].name;
+  pictureThree.name = pictureArray[picturesOnScreenIndex[2]].name;
+  pictureOne.src = pictureArray[picturesOnScreenIndex[0]].path;
+  pictureTwo.src = pictureArray[picturesOnScreenIndex[1]].path;
+  pictureThree.src = pictureArray[picturesOnScreenIndex[2]].path;
+  pictureArray[picturesOnScreenIndex[0]].numberOfTimesShowned++;
+  pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
+  pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
+}
+function countClicks(event) {
 
-// var test = document.getElementById(pictureOne.name);
-// console.log(pictureOne.numberOfTimesShowned);
-// add event listener to table
-// test.addEventListener("click", countPictureClicks);
+  totalNumberOfClicks += 1;
+  for(var i = 0; i < pictureArray.length; i++){
+    if(event.target.name === pictureArray[i].name)
+      pictureArray[i].numberOfTimesClicked++;
+      // console.log(pictureArray[i].numberOfTimesClicked);
+  }
+  if (totalNumberOfClicks < 25){
+    generateNewImages();
+    console.log('clicked'  + pictureArray[0].numberOfTimesClicked);
+    console.log('showned' + pictureArray[0].numberOfTimesShowned);
+  }
+  // console.log(pictureArray[picturesOnScreenIndex[0]].numberOfTimesClicked);
+}
+
+
+//variables needed
+var totalNumberOfClicks = 0;
+var picturesOnScreenIndex = [];
+var generatePictures;
+var pictureOne = document.getElementById('image-one');
+var pictureTwo = document.getElementById('image-two');
+var pictureThree = document.getElementById('image-three');
+pictureOne.addEventListener('click', countClicks);
+pictureTwo.addEventListener('click', countClicks);
+pictureThree.addEventListener('click', countClicks);
+startImages();
