@@ -59,9 +59,7 @@ function pictureGenerator() {
   }
   picturesOnScreenIndex.push(pictureThree);
 
-// console.log(lastPictureOnScreenIndex);
-return picturesOnScreenIndex;
-  // return picturesOnScreenIndex;
+  return picturesOnScreenIndex;
 }
 
 //This function is called when the page is loaded the first time
@@ -111,20 +109,143 @@ function countClicks(event) {
   }
   if (totalNumberOfClicks < 25){
     generateNewImages();
-    console.log('clicked'  + pictureArray[0].numberOfTimesClicked);
-    console.log('showned' + pictureArray[0].numberOfTimesShowned);
   }else{
     pictureBox.textContent = '';
+    createChart();
+
   }
   // console.log(pictureArray[picturesOnScreenIndex[0]].numberOfTimesClicked);
 }
 
+function createChart() {
+  pictureBox.style.backgroundColor = 'white';
+  var chartBox = document.createElement('canvas');
+  chartBox.width = pictureBox.clientWidth;
+  chartBox.height = '500';
+  pictureBox.appendChild(chartBox);
+
+  var ctx = chartBox.getContext('2d');
+
+  var data = {
+    labels: [],
+    datasets: [
+      {
+        label: 'click count',
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF'
+        ],
+        borderColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0'
+        ],
+        borderWidth: 1,
+        data: [],
+      },
+      {
+        label: 'display count',
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF'
+        ],borderColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0'
+        ],
+        data: [],
+      },
+    ],
+  };
+
+  var ClicksAndShowsData;
+  for(var i=0; i< pictureArray.length; i++){
+    ClicksAndShowsData = pictureArray[i];
+    data.labels.push(ClicksAndShowsData.name);
+    data.datasets[0].data.push(ClicksAndShowsData.numberOfTimesClicked);
+    data.datasets[1].data.push(ClicksAndShowsData.numberOfTimesShowned );
+  }
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: data,
+  });
+
+}
 
 //variables needed
 var totalNumberOfClicks = 0;
 var picturesOnScreenIndex = [];
-var lastPictureOnScreenIndex = [];
-var secondToLastImage = [];
 var pictureBox = document.getElementById('pictureArrays');
 var pictureOne = document.getElementById('image-one');
 var pictureTwo = document.getElementById('image-two');
