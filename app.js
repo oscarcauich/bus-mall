@@ -77,7 +77,6 @@ function startImages() {
     pictureArray[picturesOnScreenIndex[0]].numberOfTimesShowned++;
     pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
     pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
-    picturesStorageData();
   }
 }
 
@@ -109,29 +108,17 @@ function countClicks(event) {
   for(var i = 0; i < pictureArray.length; i++){
     if(event.target.name === pictureArray[i].name)
       pictureArray[i].numberOfTimesClicked++;
-    // picturesStorageData();
-      // console.log(pictureArray[i].numberOfTimesClicked);
   }
   if (totalNumberOfClicks < 25){
     generateNewImages();
-    picturesStorageData();
-  }else{
+
+  } else {
     pictureBox.textContent = '';
+
+    localStorage.pictureArray = JSON.stringify(pictureArray);
     createChart();
+
   }
-}
-
-//function to save the stage of the puctures shows and Clicks
-function picturesStorageData() {
-
-  if( JSON.parse(localStorage.getItem('pictureStoredData')) == null) {
-    pictureArray = JSON.parse(localStorage.getItem('pictureStoredData'));
-    console.log('I exist');
-  }else {
-  pictureStoredData = pictureArray;
-  pictureStoredData = localStorage.setItem('pictureStoredData', JSON.stringify(pictureStoredData));
-  console.log('oscar');
-}
 }
 
 //Function to Generate the Chart
@@ -272,4 +259,10 @@ var pictureThree = document.getElementById('image-three');
 pictureOne.addEventListener('click', countClicks);
 pictureTwo.addEventListener('click', countClicks);
 pictureThree.addEventListener('click', countClicks);
+
+try {
+  pictureArray = JSON.parse(localStorage.pictureArray);
+} catch(error){
+  console.log('error');
+}
 startImages();
