@@ -1,5 +1,6 @@
 'use strict';
 
+//Main Array for instances of Pictures
 var pictureArray = [
   new Picture('bag' , './img/bag.jpg'),
   new Picture('banana' , './img/banana.jpg'),
@@ -27,19 +28,20 @@ var pictureArray = [
 
 ];
 
-//create a constructor for various images
+//Constructor for various pictures
 function Picture(name, path) {
   this.name = name;
   this.path = path;
   this.numberOfTimesShowned = 0;
   this.numberOfTimesClicked = 0;
 }
-//This function generate a unique random number
+
+//This function generate a unique random number to be used to generate picture indexes
 function generateRandonImageIndex () {
   return Math.floor(Math.random()* pictureArray.length);
 }
 
-//This generates a random picture from the Array but they are set yet to not repeat. I will work on that tomorrow morning.
+//This generates a random picture indexes to used to generate the three pictures
 function pictureGenerator() {
   picturesOnScreenIndex = [];
 
@@ -99,6 +101,7 @@ function generateNewImages(){
 
 }
 
+//functoin to track total number of clicks per picture and call the functoin to generate a new set of pictures
 function countClicks(event) {
 
   totalNumberOfClicks++;
@@ -114,9 +117,10 @@ function countClicks(event) {
     createChart();
 
   }
-  // console.log(pictureArray[picturesOnScreenIndex[0]].numberOfTimesClicked);
 }
 
+
+//Function to Generate the Chart
 function createChart() {
   pictureBox.style.backgroundColor = 'white';
   var chartBox = document.createElement('canvas');
@@ -125,12 +129,11 @@ function createChart() {
   pictureBox.appendChild(chartBox);
 
   var ctx = chartBox.getContext('2d');
-
   var data = {
     labels: [],
     datasets: [
       {
-        label: 'click count',
+        label: 'Total Number Of Clicks',
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
@@ -179,9 +182,9 @@ function createChart() {
         data: [],
       },
       {
-        label: 'display count',
+        label: 'Total Number of Displays',
         backgroundColor: [
-          '#FF6384',
+          '#FF6386',
           '#36A2EB',
           '#FFCE56',
           '#4BC0C0',
@@ -228,6 +231,7 @@ function createChart() {
     ],
   };
 
+  /*Here we are looping thur our pictureArray to get the value of each picture number of clicks and number of displays, and then we are pushing those values into our datasets array*/
   var ClicksAndShowsData;
   for(var i=0; i< pictureArray.length; i++){
     ClicksAndShowsData = pictureArray[i];
@@ -243,7 +247,7 @@ function createChart() {
 
 }
 
-//variables needed
+//variables needed for this to work
 var totalNumberOfClicks = 0;
 var picturesOnScreenIndex = [];
 var pictureBox = document.getElementById('pictureArrays');
