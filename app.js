@@ -32,6 +32,7 @@ var pictureArray = [
 function Picture(name, path) {
   this.name = name;
   this.path = path;
+  this.percentage = 0;
   this.numberOfTimesShowned = 0;
   this.numberOfTimesClicked = 0;
 }
@@ -98,16 +99,17 @@ function generateNewImages(){
   pictureArray[picturesOnScreenIndex[0]].numberOfTimesShowned++;
   pictureArray[picturesOnScreenIndex[1]].numberOfTimesShowned++;
   pictureArray[picturesOnScreenIndex[2]].numberOfTimesShowned++;
-  // picturesStorageData();
+
 }
 
-//functoin to track total number of clicks per picture and call the functoin to generate a new set of pictures
+//functoin to track total number of clicks per picture and call the function to generate a new set of pictures
 function countClicks(event) {
 
   totalNumberOfClicks++;
   for(var i = 0; i < pictureArray.length; i++){
     if(event.target.name === pictureArray[i].name)
       pictureArray[i].numberOfTimesClicked++;
+    pictureArray[i].percentage = Math.round(pictureArray[i].numberOfTimesClicked / pictureArray[i].numberOfTimesShowned * 100);
   }
   if (totalNumberOfClicks < 25){
     generateNewImages();
@@ -117,6 +119,7 @@ function countClicks(event) {
 
     localStorage.pictureArray = JSON.stringify(pictureArray);
     createChart();
+    createPercentageChart();
 
   }
 }
@@ -124,6 +127,10 @@ function countClicks(event) {
 //Function to Generate the Chart
 function createChart() {
   pictureBox.style.backgroundColor = 'white';
+  title = document.createElement('h4');
+  title.textContent = 'Data for Number of times Showned vs Number of Times Click per Picture';
+  pictureBox.appendChild(title);
+
   var chartBox = document.createElement('canvas');
   chartBox.width = pictureBox.clientWidth;
   chartBox.height = '500';
@@ -227,6 +234,7 @@ function createChart() {
           '#4BC0C0',
           '#9966C0'
         ],
+
         data: [],
       },
     ],
@@ -247,9 +255,107 @@ function createChart() {
   });
 
 }
+//This function generates a graphs for percentages for each picture
+function createPercentageChart() {
+  percentagesChart = document.getElementById('percentages');
+  percentagesChart.style.backgroundColor = 'white';
+  title = document.createElement('h4');
+  title.textContent = 'Percentage Of Clicks per Picture';
+  percentagesChart.appendChild(title);
+
+  var percentageBox = document.createElement('canvas');
+  percentageBox.width = percentagesChart.clientWidth;
+  percentageBox.height = '500';
+  percentagesChart.appendChild(percentageBox);
+
+  var ctx = percentageBox.getContext('2d');
+
+  var data = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Percentage # of Clicks',
+        backgroundColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966FF'
+        ],
+        borderColor: [
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0',
+          '#FF6384',
+          '#36A2EB',
+          '#FFCE56',
+          '#4BC0C0',
+          '#9966C0'
+        ],
+        borderWidth: 1,
+        data: [],
+      },
+    ],
+  };
+
+  /*Here we are looping thur our pictureArray to get the value of each picture number of clicks and number of displays, and then we are pushing those values into our datasets array*/
+  var percentageData;
+  for(var i=0; i< pictureArray.length; i++){
+    percentageData = pictureArray[i];
+    data.labels.push(percentageData.name);
+    data.datasets[0].data.push(percentageData.percentage);
+  }
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: data,
+  });
+}
+
+//This seccion is to create the social media effect when the logo is clicked
+function handleLogoClickEvent(){
+  if(socialShow.className == 'social-media-hide'){
+    socialShow.className = 'social-media-show';
+    console.log('show');
+  } else {
+    socialShow.className = 'social-media-hide';
+  }
+}
+
+var logoClick = document.getElementById('call-social-media');
+var socialShow = document.getElementById('social-media');
+logoClick.addEventListener('click', handleLogoClickEvent);
 
 //variables needed for this to work
-var pictureStoredData;
+var percentagesChart;
+var title;
 var totalNumberOfClicks = 0;
 var picturesOnScreenIndex = [];
 var pictureBox = document.getElementById('pictureArrays');
